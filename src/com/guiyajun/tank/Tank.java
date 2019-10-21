@@ -1,8 +1,5 @@
 package com.guiyajun.tank;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Tank {
     
@@ -181,10 +178,11 @@ public class Tank {
                 missileOfMyTank = new Missile(x, y, dirOfBarrel, this.twc, c);
                 break;
             case UP_RIGHT:
-                missileOfMyTank = new Missile(x + TANK_WIDTH, y, dirOfBarrel, this.twc, c);
+                missileOfMyTank = new Missile(x + TANK_WIDTH, y - Missile.MISSILE_HEIGHT, dirOfBarrel, this.twc, c);
                 break;
             case DOWN_LEFT:
-                missileOfMyTank = new Missile(x, y + TANK_HEIGHT, dirOfBarrel, this.twc, c);
+                missileOfMyTank = new Missile(x - Missile.MISSILE_WIDTH / 2, y + TANK_HEIGHT - Missile
+                    .MISSILE_HEIGHT/2,dirOfBarrel, this.twc, c);
                 break;
             case DOWN_RIGHT:
                 missileOfMyTank = new Missile(x + TANK_WIDTH, y + TANK_HEIGHT, dirOfBarrel, this.twc, c);

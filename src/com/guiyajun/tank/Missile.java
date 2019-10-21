@@ -3,10 +3,7 @@ package com.guiyajun.tank;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.util.List;
-
-import com.guiyajun.tank.Tank.Direction;
 
 public class Missile {
     

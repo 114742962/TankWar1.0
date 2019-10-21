@@ -16,24 +16,25 @@ import java.awt.*;
  * @Version:      [v1.0]
  */
 public class Blood {
-
+    /** 加血包长度和宽度 */
     public static int EAT_BLOOD_WIDTH = 15;
     public static int EAT_BLOOD_HEIGHT = 15;
     
-    // 定义一个客户端类的变量，目的是为了方便管理图像上的血块
+    /** 定义一个客户端类的变量，目的是为了方便管理图像上的血块  */
     public TankWarClient twc = null;
     
-    // 定义血块的坐标变量
+    /** 定义血块的坐标变量 */
     private int x;
     private int y;
     
+    /** 血块的存活状态 */
     private boolean alive = true;
     
     /**
-    * 创建一个新的实例 Blood.
-    * @param x  Blood的x坐标
-    * @param y  Blood的y坐标
-    * @param twc    客户端的实例
+          * 创建一个新的实例 Blood.
+    * @param x  x坐标
+    * @param y  y坐标
+    * @param twc    客户端实例
      */
     public Blood(int x, int y, TankWarClient twc) {
         this.x = x;
@@ -60,15 +61,39 @@ public class Blood {
         g.setColor(c);
     }
     
+    /**
+     * 
+    * @Title: isAlive
+    * @Description: TODO(获取当前血块实例的存活状态)
+    * @param 
+    * @return boolean    返回类型
+    * @throws
+     */
     public boolean isAlive() {
         return alive;
     }
-
+    
+    /**
+     * 
+    * @Title: setAlive
+    * @Description: TODO(设置当前血块实例的存活状态)
+    * @param @param alive    存活状态 
+    * @return void    返回类型
+    * @throws
+     */
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
     
-    public Rectangle getRectOfBlood() {    // 获取子弹的方框
+    /**
+     * 
+    * @Title: getRectOfBlood
+    * @Description: TODO(获取加血包的矩形区域对象，用于碰撞检测)
+    * @param  
+    * @return Rectangle    返回类型
+    * @throws
+     */
+    public Rectangle getRectOfBlood() {
         return new Rectangle(x, y, EAT_BLOOD_WIDTH, EAT_BLOOD_HEIGHT);
     }
 }

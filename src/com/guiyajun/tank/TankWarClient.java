@@ -4,10 +4,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
 
 public class TankWarClient extends Frame {
     
+    /**
+    * @Fields field:field:{todo}(显示声明serialVersionUID可以避免对象不一致)
+    */
+    private static final long serialVersionUID = 1L;
     public static final int GAME_WIDTH = 800;   // 游戏窗口的宽度
     public static final int GAME_HEIGHT = 600;   // 游戏窗口的高度
     public static final int SCORE_AREA = 60;
