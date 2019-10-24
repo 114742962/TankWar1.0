@@ -7,26 +7,25 @@ import java.awt.*;
  * @ProjectName:  [TankWar] 
  * @Package:      [com.guiyajun.tank.Blood.java]  
  * @ClassName:    [Blood]   
- * @Description:  [实现了加血包，坦克吃了可以恢复血量]   
- * @Author:       [桂亚君]   
+ * @Description:  [加血包的属性和功能]   
+ * @Author:       [Guiyajun]   
  * @CreateDate:   [2019年10月21日 下午4:13:44]   
- * @UpdateUser:   [桂亚君]   
+ * @UpdateUser:   [Guiyajun]   
  * @UpdateDate:   [2019年10月21日 下午4:13:44]   
  * @UpdateRemark: [去掉了两种加血包的设计，只保留一种，并去掉相应的变量]  
  * @Version:      [v1.0]
  */
 public class Blood {
-    /** 加血包长度和宽度 */
+    /** 加血包宽度 */
     public static int EAT_BLOOD_WIDTH = 15;
+    /** 加血包高度 */
     public static int EAT_BLOOD_HEIGHT = 15;
-    
-    /** 定义一个客户端类的变量，目的是为了方便管理图像上的血块  */
+    /** 客户端实例变量用于管理元素 */
     public TankWarClient twc = null;
-    
-    /** 定义血块的坐标变量 */
+    /** 定义血块的x坐标变量  */
     private int x;
+    /** 定义血块的x坐标变量  */
     private int y;
-    
     /** 血块的存活状态 */
     private boolean alive = true;
     
@@ -45,13 +44,13 @@ public class Blood {
     /**
      * 
     * @Title: draw
-    * @Description: TODO(加血包的绘制方法)
+    * @Description: (加血包的绘制方法)
     * @param g    参数，可以理解为绘画用的笔 
     * @return void    返回类型
     * @throws
      */
     public void draw(Graphics g) {
-        if (!this.isAlive()) {
+        if (!this.getAlive()) {
             return;
         }
         
@@ -62,21 +61,19 @@ public class Blood {
     }
     
     /**
-     * 
-    * @Title: isAlive
-    * @Description: TODO(获取当前血块实例的存活状态)
+    * @Title: getAlive
+    * @Description: (获取当前血块实例的存活状态)
     * @param 
     * @return boolean    返回类型
     * @throws
      */
-    public boolean isAlive() {
+    public boolean getAlive() {
         return alive;
     }
     
     /**
-     * 
     * @Title: setAlive
-    * @Description: TODO(设置当前血块实例的存活状态)
+    * @Description: (设置当前血块实例的存活状态)
     * @param @param alive    存活状态 
     * @return void    返回类型
     * @throws
@@ -86,9 +83,8 @@ public class Blood {
     }
     
     /**
-     * 
     * @Title: getRectOfBlood
-    * @Description: TODO(获取加血包的矩形区域对象，用于碰撞检测)
+    * @Description: (获取加血包的矩形区域对象，用于碰撞检测)
     * @param  
     * @return Rectangle    返回类型
     * @throws

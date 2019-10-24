@@ -5,46 +5,95 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.List;
 
+/**
+ * @ProjectName:  [TankWar] 
+ * @Package:      [com.guiyajun.tank.Missile.java]  
+ * @ClassName:    [Missile]   
+ * @Description:  [坦克炮弹的属性和方法]   
+ * @Author:       [Guiyajun]   
+ * @CreateDate:   [2019年10月22日 下午4:11:41]   
+ * @UpdateUser:   [Guiyajun]   
+ * @UpdateDate:   [2019年10月22日 下午4:11:41]   
+ * @UpdateRemark: [说明本次修改内容]  
+ * @Version:      [v1.0]
+ */
 public class Missile {
-    
-    public static final int MISSILE_WIDTH = 8;        // 子弹宽度
-    public static final int MISSILE_HEIGHT = 8;       // 子弹高度
-    public static final int MISSILE_MOVESTEP = 8;     // 子弹移动速度
+    /** 炮弹宽度 */
+    public static final int MISSILE_WIDTH = 8;
+    /** 炮弹高度 */
+    public static final int MISSILE_HEIGHT = 8;
+    /** 炮弹移动速度 */
+    public static final int MISSILE_MOVESTEP = 8;
+    /** 客户端实例变量用于管理元素  */
     public TankWarClient twc = null;
-    
-    private int x = 0;     // 子弹的X坐标
-    private int y = 0;     // 子弹的Y坐标
+    /** 炮弹的X坐标 */
+    private int x = 0;
+    /** 炮弹的y坐标 */
+    private int y = 0;
+    /** 炮弹的默认颜色*/
     private Color colorOfMissile = Color.BLACK;
+    /** 炮弹的存活状态*/
     private boolean aliveOfMissile = true;      
-    
+    /** 炮弹的方向，类型为Tank类中定义的枚举类型Direction*/
     Tank.Direction dirOfMissile = null;
     
+    /**
+    * @Description: 创建一个新的实例 Missile.
+    * @param x  x坐标
+    * @param y  y坐标
+    * @param dirOfBarrel 炮筒方向
+    * @param twc    客户端实例
+     */
     Missile(int x, int y, Tank.Direction dirOfBarrel, TankWarClient twc) {
         this.x = x;
         this.y = y;
         this.dirOfMissile = dirOfBarrel;
         this.twc = twc;
     }
-    
-    Missile(int x, int y, Tank.Direction dirOfBarrel, TankWarClient twc, Color c) {
+    /**
+     * 
+    * @Description: 创建一个新的实例 Missile.
+    * @param x  x坐标
+    * @param y  y坐标
+    * @param dirOfBarrel 炮筒方向
+    * @param twc 客户端实例
+    * @param color 坦克颜色
+     */
+    Missile(int x, int y, Tank.Direction dirOfBarrel, TankWarClient twc, Color color) {
         this(x, y, dirOfBarrel, twc);
-        this.colorOfMissile = c;
+        this.colorOfMissile = color;
     }
     
-    public void draw(Graphics g) {      // 画出子弹
+    /**
+    * @Title: draw
+    * @Description: 炮弹的绘制方法
+    * @param @param g    绘画用的参数，可以理解为画笔 
+    * @return void    返回类型
+    * @throws
+     */
+    public void draw(Graphics g) {
         if (!this.getAliveOfMissile()) {
             return;
         }
         
+        //画出炮弹
         Color c = g.getColor();
         g.setColor(colorOfMissile);
         g.fillOval(x, y, MISSILE_WIDTH, MISSILE_HEIGHT);        
         g.setColor(c);
         
+        //移动炮弹
         move();
     }
     
-    public void move() {   // 根据方向使子弹移动
+    /**
+    * @Title: move
+    * @Description: 子弹的移动方法
+    * @param     
+    * @return void    返回类型
+    * @throws
+     */
+    public void move() {
         switch (dirOfMissile) {
             case UP:
                 y -= MISSILE_MOVESTEP;
@@ -78,32 +127,51 @@ public class Missile {
                 break;
         }
         
+        // 炮弹每移动一步需要做一次碰撞检测
         collisionDetection();
     }
     
+    /**
+    * @Title: hitTank
+    * @Description: 判断炮弹是否击中坦克，根据判断修改炮弹和坦克的生存状态
+    * @param @param tank 传入一个tank对象
+    * @param @return
+    * @return boolean    返回类型
+    * @throws
+     */
     boolean hitTank(Tank tank) {
         boolean hit = false;
         if (this.aliveOfMissile && this.getRectOfMissle().intersects(tank.getRectOfTank()) 
-            && tank.isAlive()) {
+            && tank.getAliveOfTank()) {
             hit = true;
             this.setAliveOfMissile(false);
             
+            // 主坦克被击中一次掉一点血
             if(tank.equals(twc.myTank)) {
                 tank.reduceBloodOfTank(1);
             } else {
                 tank.reduceBloodOfTank(4);
             }
             
+            // 如果坦克没血了将坦克设置为被摧毁状态
             if (tank.getBloodOfTank() <= 0) {
                 tank.setAliveOfTank(false);
             }
-                
+            
+            // 坦克被击中时产生爆炸效果并将爆炸效果加入到客户端实例的爆炸集合中
             twc.explodes.add(new Explode(tank.x, tank.y, twc));
         }
         
         return hit;
     }
     
+    /**
+    * @Title: hitEnemyTanks
+    * @Description: 判断是否击中敌方任意坦克
+    * @param @param enemyTanks    敌方坦克的集合
+    * @return void    返回类型
+    * @throws
+     */
     public void hitEnemyTanks(List<EnemyTank> enemyTanks) {
         for (int i=0; i<enemyTanks.size(); i++) {
             Tank et = enemyTanks.get(i);
@@ -111,15 +179,36 @@ public class Missile {
         }
     }
     
+    /**
+    * @Title: getAliveOfMissile
+    * @Description: 获取炮弹的生存状态
+    * @param @return   
+    * @return boolean    返回类型
+    * @throws
+     */
     public boolean getAliveOfMissile() {
         return aliveOfMissile;
     }
     
+    /**
+    * @Title: setAliveOfMissile
+    * @Description: 设置炮弹的生存状态
+    * @param @param live    布尔型，true代表正常，false代表摧毁 
+    * @return void    返回类型
+    * @throws
+     */
     public void setAliveOfMissile(boolean live) {
         this.aliveOfMissile = live;
     }
-
-    public void collisionDetection() {  // 子弹碰撞检测
+    
+    /**
+    * @Title: collisionDetection
+    * @Description: 子弹碰撞检测
+    * @param     参数 
+    * @return void    返回类型
+    * @throws
+     */
+    public void collisionDetection() { 
         if (twc != null) {
             // 子弹与围墙碰撞检测
             if (x < 0 || y < TankWarClient.SCORE_AREA || x > TankWarClient.GAME_WIDTH 
@@ -136,7 +225,7 @@ public class Missile {
                 twc.missilesOfMyTank.remove(this);
             }
             
-            // 子弹与子弹碰撞
+            // 主坦克子弹与敌方坦克子弹碰撞
             for (int i=0; i<twc.missilesOfMyTank.size(); i++) {
                 for (int j=0; j<twc.missilesOfEnemyTanks.size(); j++) {
                     Missile mofmy = twc.missilesOfMyTank.get(i);
@@ -155,7 +244,14 @@ public class Missile {
         }
     }
     
-    public Rectangle getRectOfMissle() {    // 获取子弹的方框
+    /**
+    * @Title: getRectOfMissle
+    * @Description: (获取炮弹的矩形区域对象，用于碰撞检测)
+    * @param @return    参数 
+    * @return Rectangle    返回类型
+    * @throws
+     */
+    public Rectangle getRectOfMissle() {
         return new Rectangle(x, y, MISSILE_WIDTH, MISSILE_HEIGHT);
     }
 }

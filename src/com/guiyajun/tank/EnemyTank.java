@@ -10,9 +10,9 @@ import java.util.Random;
  * @Package:      [com.guiyajun.tank.EnemyTank.java]  
  * @ClassName:    [EnemyTank]   
  * @Description:  [定义敌方坦克的属性和功能]   
- * @Author:       [桂亚君]   
+ * @Author:       [Guiyajun]   
  * @CreateDate:   [2019年10月21日 下午9:43:50]   
- * @UpdateUser:   [桂亚君]   
+ * @UpdateUser:   [Guiyajun]   
  * @UpdateDate:   [2019年10月21日 下午9:43:50]   
  * @UpdateRemark: [说明本次修改内容]  
  * @Version:      [v1.0]
@@ -36,7 +36,7 @@ public class EnemyTank extends Tank {
           * 创建一个新的实例 EnemyTank.
     * @param x  x坐标
     * @param y  y坐标 
-    * @param friendly   是否友好，目前版本未使用该属性，为后续版本设计
+    * @param friendly   是否友好，目前版本未使用该属性，为后续联网版本设计
     * @param twc    客户端实例
      */
     public EnemyTank(int x, int y, boolean friendly, TankWarClient twc) {
@@ -46,20 +46,18 @@ public class EnemyTank extends Tank {
 
     @Override
     public void draw(Graphics g) {
-        if (!this.isAlive()) {
+        if (!this.getAliveOfTank()) {
             return;
         }
         
-        /**
-                   * 获取初始颜色并画出坦克
-        */
+        //获取初始颜色并画出坦克
         Color c = g.getColor();
         g.setColor(Color.LIGHT_GRAY);
         g.fillOval(x, y, TANK_WIDTH, TANK_HEIGHT);
         g.setColor(Color.DARK_GRAY);
         
-        /**
-                   *  如果步数为0就获取新的移动方向，并获取炮管方向，生成新的步数，否则步数减去1
+        /*
+                    如果步数为0就获取新的移动方向，并获取炮管方向，生成新的步数，否则步数减去1
         */
         if (step == 0) {
             getDirection();
@@ -69,8 +67,8 @@ public class EnemyTank extends Tank {
             step --;
         }
         
-        /**
-                   *  如果倒计数为0就开火，并生成新的倒计数，否则倒计数减1
+        /*
+                   如果倒计数为0就开火，并生成新的倒计数，否则倒计数减1
         */
         if(fireCountdown == 0) {
             twc.missilesOfEnemyTanks.add(fire(COLOROFMISSILE, dirOfBarrel));
@@ -79,8 +77,8 @@ public class EnemyTank extends Tank {
             fireCountdown --;
         }
         
-        /**
-                   * 移动，碰撞检测，画出坦克的炮筒
+        /*
+                    移动，碰撞检测，画出坦克的炮筒
         */
         move();
         collisionDetection();
@@ -91,7 +89,6 @@ public class EnemyTank extends Tank {
     }
     
     @Override
-    // 获取坦克的方向
     void getDirection() { 
         Direction[] dirOfEnemyTank = Direction.values();
         int indexOfDirection = random.nextInt(dirOfEnemyTank.length);
