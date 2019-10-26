@@ -35,7 +35,7 @@ public class Missile {
     /** 炮弹的存活状态*/
     private boolean aliveOfMissile = true;      
     /** 炮弹的方向，类型为Tank类中定义的枚举类型Direction*/
-    Tank.Direction dirOfMissile = null;
+    Direction dirOfMissile = null;
     
     /**
     * @Description: 创建一个新的实例 Missile.
@@ -44,7 +44,7 @@ public class Missile {
     * @param dirOfBarrel 炮筒方向
     * @param twc    客户端实例
      */
-    Missile(int x, int y, Tank.Direction dirOfBarrel, TankWarClient twc) {
+    Missile(int x, int y, Direction dirOfBarrel, TankWarClient twc) {
         this.x = x;
         this.y = y;
         this.dirOfMissile = dirOfBarrel;
@@ -59,7 +59,7 @@ public class Missile {
     * @param twc 客户端实例
     * @param color 坦克颜色
      */
-    Missile(int x, int y, Tank.Direction dirOfBarrel, TankWarClient twc, Color color) {
+    Missile(int x, int y, Direction dirOfBarrel, TankWarClient twc, Color color) {
         this(x, y, dirOfBarrel, twc);
         this.colorOfMissile = color;
     }

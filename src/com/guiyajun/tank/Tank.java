@@ -41,29 +41,6 @@ public class Tank {
     private int bloodOfTank = 4;
     /** 坦克的存活状态 */
     private boolean aliveOfTank = true;
-    /** 
-         游戏中的八个方向
-    */
-    public enum Direction {
-        /** 上 */
-        UP,
-        /** 下 */
-        DOWN,
-        /** 左 */
-        LEFT, 
-        /** 右 */
-        RIGHT,
-        /** 左上 */
-        UP_LEFT,
-        /** 右上 */
-        UP_RIGHT,
-        /** 左下 */
-        DOWN_LEFT,
-        /** 右下 */
-        DOWN_RIGHT,
-        /** 停止 */
-        STOP
-    };
     
     /**
     * @Description: 创建一个新的实例 Tank.
@@ -349,6 +326,68 @@ public class Tank {
     }
     
     /**
+     * @Title: drawBlood
+     * @Description: 根据坦克的血量及方向画出坦克的血量值，血量值永远在炮筒后方显示
+     * @param @param g   画笔
+     * @param @param bloodOfTank    血量值 
+     * @return void    返回类型
+     * @throws
+     */
+    public void drawBlood(Graphics g, int bloodOfTank) {
+        // 根据炮筒方向画出血量值
+        getBarrelDirection();
+        switch(dirOfBarrel) {   
+        case UP:
+            g.drawString(" " + bloodOfTank, x + 10, y + 27);
+            break;
+        case DOWN:
+            g.drawString(" " + bloodOfTank, x + 10, y + 12);
+            break;
+        case LEFT:
+            g.drawString(" " + bloodOfTank, x + 18, y + 20);
+            break;
+        case RIGHT:
+            g.drawString(" " + bloodOfTank, x + 5, y + 20);
+            break;
+        case UP_LEFT:
+            g.drawString(" " + bloodOfTank, x + 15, y + 25);
+            break;
+        case UP_RIGHT:
+            g.drawString(" " + bloodOfTank, x + 5, y + 25);
+            break;
+        case DOWN_LEFT:
+            g.drawString(" " + bloodOfTank, x + 15, y + 15);
+            break;
+        case DOWN_RIGHT:
+            g.drawString(" " + bloodOfTank, x + 5, y + 18);
+            break;
+        default:
+            break;
+        }
+    }
+    
+    /**
+    * @Title: setAliveOfTank
+    * @Description: 设置坦克的生存状态
+    * @param @param aliveOfTank    false为摧毁
+    * @return void    返回类型
+    * @throws
+     */
+    public void setAliveOfTank(boolean aliveOfTank) {
+        this.aliveOfTank = aliveOfTank;
+    }
+    
+    /**
+    * @Title: getRectOfTank
+    * @Description: (获取坦克的矩形区域对象，用于碰撞检测)
+    * @return Rectangle    返回类型
+    * @throws
+     */
+    public Rectangle getRectOfTank() {
+        return new Rectangle(x, y, TANK_WIDTH, TANK_HEIGHT);
+    }
+    
+    /**
     * @Title: getBloodOfTank
     * @Description: 获取坦克的血量值
     * @return int    返回类型
@@ -378,68 +417,6 @@ public class Tank {
      */
     public boolean getAliveOfTank() {
         return aliveOfTank;
-    }
-    
-    /**
-    * @Title: setAliveOfTank
-    * @Description: 设置坦克的生存状态
-    * @param @param aliveOfTank    false为摧毁
-    * @return void    返回类型
-    * @throws
-     */
-    public void setAliveOfTank(boolean aliveOfTank) {
-        this.aliveOfTank = aliveOfTank;
-    }
-    
-    /**
-    * @Title: getRectOfTank
-    * @Description: (获取坦克的矩形区域对象，用于碰撞检测)
-    * @return Rectangle    返回类型
-    * @throws
-     */
-    public Rectangle getRectOfTank() {
-        return new Rectangle(x, y, TANK_WIDTH, TANK_HEIGHT);
-    }
-    
-    /**
-    * @Title: drawBlood
-    * @Description: 根据坦克的血量及方向画出坦克的血量值，血量值永远在炮筒后方显示
-    * @param @param g   画笔
-    * @param @param bloodOfTank    血量值 
-    * @return void    返回类型
-    * @throws
-     */
-    public void drawBlood(Graphics g, int bloodOfTank) {
-        // 根据炮筒方向画出血量值
-        getBarrelDirection();
-        switch(dirOfBarrel) {   
-            case UP:
-                g.drawString(" " + bloodOfTank, x + 10, y + 27);
-                break;
-            case DOWN:
-                g.drawString(" " + bloodOfTank, x + 10, y + 12);
-                break;
-            case LEFT:
-                g.drawString(" " + bloodOfTank, x + 18, y + 20);
-                break;
-            case RIGHT:
-                g.drawString(" " + bloodOfTank, x + 5, y + 20);
-                break;
-            case UP_LEFT:
-                g.drawString(" " + bloodOfTank, x + 15, y + 25);
-                break;
-            case UP_RIGHT:
-                g.drawString(" " + bloodOfTank, x + 5, y + 25);
-                break;
-            case DOWN_LEFT:
-                g.drawString(" " + bloodOfTank, x + 15, y + 15);
-                break;
-            case DOWN_RIGHT:
-                g.drawString(" " + bloodOfTank, x + 5, y + 18);
-                break;
-            default:
-                break;
-        }
     }
 }
     
